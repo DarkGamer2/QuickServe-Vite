@@ -16,10 +16,18 @@ const Settings = () => {
   const [modalMessage, setModalMessage] = useState('');
   const [modalColor, setModalColor] = useState('');
 
+  const showMessageModal = (message: string, color: string) => {
+    setModalType('message');
+    setModalMessage(message);
+    setModalColor(color);
+    setShowModal(true);
+  };
+
   const handleFontSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSize = e.target.value + 'px';
     setFontSize(newSize);
     document.documentElement.style.setProperty('--font-size', newSize);
+    showMessageModal('Font size updated successfully', 'bg-green-500');
   };
 
   const handleDeleteAccount = () => {
@@ -37,12 +45,7 @@ const Settings = () => {
     setShowModal(false);
   };
 
-  const showMessageModal = (message: string, color: string) => {
-    setModalType('message');
-    setModalMessage(message);
-    setModalColor(color);
-    setShowModal(true);
-  };
+
 
   return (
     <div className={`flex flex-col md:flex-row min-h-screen ${theme === "dark" ? "dark" : "light"}`}>
