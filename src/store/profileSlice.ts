@@ -20,7 +20,7 @@ const initialState:ProfileState={
 }
 
 export const fetchProfile=createAsyncThunk('profile/fetchProfile',async(id:string)=>{
-    const response=await axios.get(`http://localhost:3000/api/users/profile/${id}`);
+    const response=await axios.get(`https://quickserve-api-production.up.railway.app/api/users/profile/${id}`);
     return response.data;
 })
 

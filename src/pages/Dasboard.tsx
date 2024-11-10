@@ -30,7 +30,7 @@ const Dashboard = () => {
   const fetchJobs = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:3000/api/jobs/jobs");
+      const response = await axios.get("https://quickserve-api-production.up.railway.app/api/jobs/jobs");
       console.log(response.data); // Log the response data
       const jobsWithImages = response.data.map((job: any) => ({
         ...job,
