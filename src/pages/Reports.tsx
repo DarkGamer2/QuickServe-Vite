@@ -8,7 +8,15 @@ import LoopIcon from '@mui/icons-material/Loop';
 import ReportThumbnail from "../assets/images/PHOTO-2024-10-12-19-42-55.jpg";
 
 const Reports = () => {
-  const [reports, setReports] = useState([]);
+  interface ReportType {
+    id: string;
+    title: string;
+    description: string;
+    date: string;
+    // Add other properties of the report object here
+  }
+  
+  const [reports, setReports] = useState<ReportType[]>([]);
   const [loading, setLoading] = useState(true);
 
   const { theme } = useTheme();
@@ -47,6 +55,9 @@ const Reports = () => {
             <Report
               key={report.id}
               reportThumbnail={ReportThumbnail}
+              reportTitle={report.title}
+              reportDescription={report.description}
+              reportDate={report.date}
             />
           ))
         )}
