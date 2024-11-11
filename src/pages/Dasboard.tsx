@@ -64,6 +64,8 @@ const Dashboard = () => {
               <LoopIcon className="animate-spin mr-2" />
               <span>Loading...</span>
             </div>
+          ) : jobs.length === 0 ? (
+            <div>No Jobs To Display</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {jobs.map((job: any) => (
