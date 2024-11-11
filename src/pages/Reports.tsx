@@ -37,7 +37,7 @@ const Reports = () => {
   }, []);
 
   return (
-    <div className={`flex ${theme === "dark" ? "dark" : "light"}`}>
+    <div className={`min-h-screen flex ${theme === "dark" ? "dark" : "light"}`}>
       <div className="dark:bg-black">
         <SideNav />
       </div>
@@ -71,6 +71,7 @@ const Reports = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Reports;
