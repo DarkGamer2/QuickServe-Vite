@@ -10,7 +10,8 @@ const SideNav: React.FC = () => {
   return (
     <div className={`${theme==="dark"?"dark":"light"}`}>
       <div>
-        <nav className={`h-screen w-20 list-none dark:bg-black`}>
+      <nav className="fixed top-0 left-0 h-screen w-20 list-none dark:bg-black">
+
           <NavLink to="/dashboard">
             <li className="text-green-500 py-6">
               <HomeIcon fontSize="large" />
