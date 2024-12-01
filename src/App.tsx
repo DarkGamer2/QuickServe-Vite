@@ -1,13 +1,13 @@
 import "./App.css";
 import { useTheme } from "./context/theme/Theme";
-import Dashboard from "./pages/Dasboard";
+import Login from "./pages/Login";
 function App() {
   const { theme } = useTheme();
   return (
     <main className={` ${theme==="dark"?"dark":"light"}`}>
       <div className="dark:bg-black">
 
-    <Dashboard/>
+  <Login/>
       </div>
     
     </main>

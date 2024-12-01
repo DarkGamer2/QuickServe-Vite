@@ -1,24 +1,27 @@
-// FILE: src/components/Report.tsx
-import React from "react";
+import { useTheme } from "../context/theme/Theme";
 
 interface ReportProps {
   reportTitle: string;
-  reportDescription: string;
+  reportType: string;
   reportDate: string;
   reportThumbnail: string;
 }
 
-const Report: React.FC<ReportProps> = ({ reportTitle, reportDescription, reportDate, reportThumbnail }) => {
+const Report: React.FC<ReportProps> = ({ reportTitle, reportType, reportDate, reportThumbnail }) => {
+  const { theme } = useTheme();
+
   return (
-    <div className="bg-gray-100 rounded-md p-4 shadow-md mb-4 dark:bg-gray-800">
-      <div className="flex items-center mb-4">
-        <img src={reportThumbnail} alt="Report Thumbnail" className="h-16 w-16 mr-4" />
-        <div>
-          <h2 className="font-bold text-lg dark:text-white">{reportTitle}</h2>
-          <p className="text-sm dark:text-gray-300">{reportDate}</p>
+    <div className={`${theme === "dark" ? "dark" : "light"}`}>
+      <div className="bg-white dark:bg-black rounded-lg shadow-md p-6 mb-4">
+        <div className="flex items-center mb-4">
+          <img src={reportThumbnail} alt="Report Thumbnail" className="h-16 w-16 rounded-md mr-4" />
+          <div>
+            <h2 className="font-bold text-xl dark:text-white">{reportTitle}</h2>
+            <p className="text-sm text-gray-500 dark:text-white">{new Date(reportDate).toLocaleDateString()}</p>
+          </div>
         </div>
+        <p className="text-gray-700 dark:text-white mb-4">{reportType}</p>
       </div>
-      <p className="dark:text-white">{reportDescription}</p>
     </div>
   );
 };

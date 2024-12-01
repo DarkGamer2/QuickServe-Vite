@@ -1,11 +1,12 @@
 import SideNav from "../components/SideNav";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/theme/Theme";
 import { useFontSize } from "../context/font/Font";
 import Modal from "../components/Modal";
 import { useState } from "react";
+import { useAuth } from "../context/auth/Auth";
 
 const Settings = () => {
   const { theme, toggleTheme } = useTheme();
@@ -15,6 +16,9 @@ const Settings = () => {
   const [modalType, setModalType] = useState<'message' | 'admin'>('message');
   const [modalMessage, setModalMessage] = useState('');
   const [modalColor, setModalColor] = useState('');
+  const { id } = useParams<{ id: string }>();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const showMessageModal = (message: string, color: string) => {
     setModalType('message');
@@ -45,13 +49,22 @@ const Settings = () => {
     setShowModal(false);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/"); // Redirect to login page after logout
+  };
 
+  // Provide a fallback if id is undefined
+  const userId = id || ""; // Set default to empty string or handle differently
 
   return (
     <div className={`flex flex-col md:flex-row min-h-screen ${theme === "dark" ? "dark" : "light"}`}>
-      <SideNav />
-      <div className="flex-1 flex flex-col items-center justify-center p-4 dark:bg-black">
+      {/* Pass userId (fallback in case id is undefined) to SideNav */}
+      <SideNav userId={userId} />
+      
+      <div className="flex-1 flex flex-col items-center justify-center p-4 dark:bg-black bg-gray-100">
         <h1 className="text-center font-bebasneue text-4xl mb-8 dark:text-white">Settings</h1>
+
         <div className="flex items-center mb-4">
           <p className="mr-2 dark:text-white">Dark Mode</p>
           <button onClick={toggleTheme}>
@@ -66,8 +79,8 @@ const Settings = () => {
           <p className="mx-1 dark:text-white">Font Size</p>
           <select
             value={parseInt(fontSize)}
-            onChange={handleFontSizeChange}
-            className="rounded-md bg-slate-300 font-outfit py-2 my-1"
+            onChange={(e) => handleFontSizeChange(e)}
+            className="rounded-md bg-slate-300 font-outfit py-2 my-1 text-center"
           >
             <option value="10">10</option>
             <option value="12">12</option>
@@ -77,7 +90,7 @@ const Settings = () => {
           </select>
         </div>
         <div className="text-center mb-4">
-          <Link to="/profile">
+          <Link to={`/profile/${userId}`}>
             <button className="rounded-md py-2 px-3 text-white bg-orange-500">View Profile</button>
           </Link>
         </div>
@@ -89,49 +102,20 @@ const Settings = () => {
             Delete Account
           </button>
         </div>
+        <div>
+          <button onClick={handleLogout} className="bg-red-500 text-white font-inter rounded-md text-center px-3 py-1 mt-4">
+            Logout
+          </button>
+        </div>
       </div>
-      {showModal && modalType === 'admin' && (
-        <Modal
-          color={theme === 'dark' ? 'bg-black' : 'bg-white'}
-          message={
-            <div>
-              <p className="text-black mb-4 dark:text-white">Enter admin password to delete account:</p>
-              <input
-                type="password"
-                value={adminPassword}
-                onChange={(e) => setAdminPassword(e.target.value)}
-                className="rounded-md bg-slate-300 font-outfit py-2 my-1 dark:bg-slate-500 w-full dark:text-white"
-              />
-              <div className="flex justify-end mt-4">
-                <button
-                  className="bg-green-500 text-white rounded-md px-3 py-2 mr-2"
-                  onClick={handleConfirmDelete}
-                >
-                  Confirm
-                </button>
-                <button
-                  className="bg-gray-500 text-white rounded-md px-3 py-2"
-                  onClick={handleCloseModal}
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          }
-          onClose={handleCloseModal}
-          show={showModal}
-          type="admin"
-        />
-      )}
-      {showModal && modalType === 'message' && (
-        <Modal
-          color={modalColor}
-          message={modalMessage}
-          onClose={handleCloseModal}
-          show={showModal}
-          type="message"
-        />
-      )}
+      <Modal
+        color={modalColor}
+        message={modalMessage}
+        onClose={handleCloseModal}
+        show={showModal}
+        type={modalType}
+        onSubmit={handleConfirmDelete}
+      />
     </div>
   );
 };
