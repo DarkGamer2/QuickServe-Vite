@@ -16,6 +16,8 @@ interface AuthContextType {
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  register: (email: string, password: string, fullName: string, skillset: string[]) => Promise<void>;
+
 }
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -74,12 +76,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
   };
 
+  const register = async (email: string, password: string, fullName: string, skillset: string[]) => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/auth/register', { email, password, fullName, skillset }, { withCredentials: true });
+      setToken(response.data.token);
+      localStorage.setItem('token', response.data.token);
+      setUser(response.data.user);
+    } catch (error) {
+      console.error('Registration failed', error);
+      throw error;
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout,register }}>
       {children}
     </AuthContext.Provider>
   );
