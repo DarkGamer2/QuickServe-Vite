@@ -115,7 +115,19 @@ const Settings = () => {
         show={showModal}
         type={modalType}
         onSubmit={handleConfirmDelete}
-      />
+      >
+        {modalType === 'admin' && (
+          <div className="flex flex-col items-center">
+            <label className="dark:text-white mb-2">Admin Password</label>
+            <input
+              type="password"
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
+              className="rounded-md bg-slate-300 font-outfit py-2 my-1 dark:bg-slate-500 w-full dark:text-white"
+            />
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

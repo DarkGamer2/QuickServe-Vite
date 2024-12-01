@@ -36,6 +36,7 @@ const AddJobForm = () => {
     const formData = { ...formState, jobIcon, userId: user._id }; // Add userId to formData
     try {
       const result = await dispatch(addJob(formData)).unwrap();
+      console.log('Result:', result); // Log the result
       setModalMessage('Job created successfully!');
       setModalColor('bg-green-500');
       dispatch(resetForm());

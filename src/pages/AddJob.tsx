@@ -7,7 +7,7 @@ const AddJob = () => {
   return (
     <div className={`flex ${theme === "dark" ? "dark" : "light"}`}>
       <div>
-        <SideNav />
+        <SideNav userId="userId"/>
       </div>
       <div className="flex-1 p-4 dark:bg-black">
         <h1 className="text-center font-bebasneue text-4xl mb-8 dark:text-white">Add Job</h1>

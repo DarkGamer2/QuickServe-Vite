@@ -18,7 +18,6 @@ import PrivateRoute from "./components/PrivateRoute";
 import Error from "./pages/Error";
 import EditProfile from "./pages/EditProfile";
 import ReportDetails from "./pages/ReportDetails";
-import ReportPDF from "./components/ReportPDF";
 
 // Create the router with correct paths
 const router = createBrowserRouter(
