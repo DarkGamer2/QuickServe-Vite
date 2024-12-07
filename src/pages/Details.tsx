@@ -9,7 +9,7 @@ import Networking from "../assets/images/networking.jpg";
 import LoopIcon from '@mui/icons-material/Loop';
 import { useTheme } from "../context/theme/Theme";
 import Modal from "../components/Modal";
-
+import PlaceholderProfilePic from "../assets/images/depositphotos_137014128-stock-illustration-user-profile-icon.jpg";
 //TODO - add API endpoint to change job status
 const jobTypeImages: { [key: string]: string } = {
   "PC Repairs": PCRepairImage,
@@ -79,7 +79,7 @@ const Details = () => {
   if (loading) {
     return (
       <div className="flex flex-col md:flex-row min-h-screen">
-        <SideNav userId="randomId" />
+        <SideNav userId="randomId" profilePic={PlaceholderProfilePic}/>
         <div className="flex-1 flex items-center justify-center text-orange-500 font-inter">
           <LoopIcon className="animate-spin mr-2" />
           <span>Loading...</span>
@@ -91,7 +91,7 @@ const Details = () => {
   if (!job) {
     return (
       <div className="flex flex-col md:flex-row min-h-screen">
-        <SideNav userId="randomId" />
+        <SideNav userId="randomId" profilePic={PlaceholderProfilePic}/>
         <div className="flex-1 flex items-center justify-center text-red-500 font-inter">
           <span>Job Not Found</span>
         </div>
@@ -102,47 +102,45 @@ const Details = () => {
   const modalColor = theme === 'dark' ? 'bg-gray-800' : 'bg-white';
 
   return (
-    <div className={`flex flex-col md:flex-row min-h-screen ${theme === "dark" ? "dark" : "light"}`}>
-      <SideNav userId="randomId" />
-      <div className="flex-1 p-4 dark:bg-black bg-gray-100">
-        <h1 className="font-bebasneue text-3xl text-center dark:text-white">Job Details</h1>
+    <div className={`flex min-h-screen ${theme === "dark" ? "dark" : "light"}`}>
+      <SideNav userId="randomId" profilePic={PlaceholderProfilePic} />
+      {/* Main content with margin to respect sidebar width */}
+      <div className="flex-1 p-6 ml-16 dark:bg-black bg-gray-100">
+        <h1 className="font-bebasneue text-3xl text-center dark:text-white mb-6">Job Details</h1>
+        
         <div className="flex flex-col md:flex-row mt-4 space-y-4 md:space-y-0 md:space-x-4">
           <div className="flex flex-col space-y-4 flex-1">
             <div className="bg-white dark:bg-gray-800 p-4 rounded-md shadow-md">
               <h1 className="font-inter text-2xl text-center dark:text-white">Description</h1>
               <p className="font-inter text-center dark:text-white">{job.jobDescription}</p>
             </div>
-            <div className="flex flex-col space-y-4 flex-1">
-              <div id="date" className="bg-white dark:bg-gray-800 p-4 rounded-md shadow-md">
-                <h1 className="font-inter text-2xl text-center dark:text-white">Date</h1>
-                <p className="font-inter text-center dark:text-white">{job.jobRequestDate}</p>
-              </div>
-              <div id="assigned-by" className="bg-white dark:bg-gray-800 p-4 rounded-md shadow-md">
-                <h1 className="font-inter text-2xl text-center dark:text-white">Assigned By</h1>
-                <p className="font-inter text-center dark:text-white">{job.assignedBy}</p>
-              </div>
+            
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-md shadow-md">
+              <h1 className="font-inter text-2xl text-center dark:text-white">Date</h1>
+              <p className="font-inter text-center dark:text-white">{job.jobRequestDate}</p>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-md shadow-md">
+              <h1 className="font-inter text-2xl text-center dark:text-white">Assigned By</h1>
+              <p className="font-inter text-center dark:text-white">{job.assignedBy}</p>
             </div>
           </div>
+
           <div className="flex flex-col space-y-4 flex-1">
             <div className="bg-white dark:bg-gray-800 p-4 rounded-md shadow-md">
               <h1 className="font-inter text-2xl text-center dark:text-white">Requested By</h1>
               <p className="font-inter text-center dark:text-white">{job.jobRequester}</p>
             </div>
-            <div
-              id="status"
-              className={`p-4 rounded-md flex flex-col justify-between h-full bg-white dark:bg-gray-800 shadow-md`} // Apply background color
-            >
-              <div>
-                <h1 className="font-inter text-2xl text-center dark:text-white">Status</h1>
-                <div className="text-center">
-                  <button
-                    className={`rounded-md px-3 py-1 text-center font-inter mt-4 ${job.statusColor} text-white`} // Apply background color to button
-                  >
-                    {job.jobStatus}
-                  </button>
-                </div>
-              </div>
-              <button className="bg-orange-500 text-white rounded-md px-3 py-1 text-center font-inter mt-4" onClick={() => handleOpenModal(job._id)}>
+
+            <div className={`p-4 rounded-md flex flex-col justify-between bg-white dark:bg-gray-800 shadow-md`}>
+              <h1 className="font-inter text-2xl text-center dark:text-white">Status</h1>
+              <button className={`rounded-md px-4 py-2 mt-4 ${job.statusColor} text-white font-inter`}>
+                {job.jobStatus}
+              </button>
+              <button
+                className="bg-orange-500 text-white rounded-md px-4 py-2 mt-4 font-inter hover:bg-orange-600 transition duration-300"
+                onClick={() => handleOpenModal(job._id)}
+              >
                 Change Status
               </button>
               <Modal
